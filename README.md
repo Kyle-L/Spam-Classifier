@@ -1,5 +1,5 @@
 # Spam Classifier <!-- omit in toc -->
-[![Run on Repl.it](https://repl.it/badge/github/Kyle-L/Simple-Chess-Engine)](https://repl.it/github/Kyle-L/Spam-Classifier)
+[![Run on Repl.it](https://repl.it/badge/github/Kyle-L/Spam-Classifier)](https://repl.it/github/Kyle-L/Spam-Classifier)
 
 # Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
