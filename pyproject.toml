@@ -10,6 +10,5 @@ homepage = "https://github.com/Kyle-L/Spam-Classifier"
 documentation = "https://github.com/Kyle-L/Spam-Classifier"
 
 [tool.poetry.dependencies]
-numpy = "^1.21.3"
 pandas = "^1.17.3"
 python = "^3.8"
