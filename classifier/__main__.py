@@ -19,11 +19,11 @@ if __name__ == '__main__':
     parser.add_argument('TrainingSetPath',
                         metavar='training-set-path',
                         type=str,
-                        help='')
+                        help='The path to the training data set.')
     parser.add_argument('TestingSetPath',
                         metavar='testing-set-path',
                         type=str,
-                        help='')
+                        help='The path to the test data set.')
 
 
     args = parser.parse_args()

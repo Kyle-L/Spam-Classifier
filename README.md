@@ -1,9 +1,11 @@
-# Spam Classifier <!-- omit in toc -->
+![Spam Classifier](doc/header.svg)
+
 [![Run on Repl.it](https://repl.it/badge/github/Kyle-L/Spam-Classifier)](https://repl.it/github/Kyle-L/Spam-Classifier)
 
 # Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Local Setup](#local-setup)
+- [The Data Sets](#the-data-sets)
 - [Remote Setup](#remote-setup)
 - [License](#license)
 
@@ -14,7 +16,7 @@ As a simple assignment for my [Introduction to Artificial Intelligence course (C
 
 If you would like to setup the Chess Engine on your local machine, you can use the following instructions!
 
-1. Download the site.
+1. Download the repo.
 
 ```shell
 $ git clone git@github.com:Kyle-L/Spam-Classifier.git
@@ -47,16 +49,30 @@ $ source env/bin/activate
 5. Install the requirements
 
 ```shell
-$ pip install -r requirements.txt
+$ pip install -r classifier/requirements.txt
 ```
 
-6. Run the chess engine!
+1. Run the classifier!
 
 ```shell
-$ python ./engine.py
+$ python ./classifier.py -h
 ```
 
 Congrats! You are setup!
+
+# The Data Sets
+The expected input is a tab delimated file where the first column indicates whether or not a message is spam (1 = spam, 0 = ham) and the two column is the message. No header is expected.
+
+An example input into the program is as follows...
+
+```
+0	Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...
+0	Ok lar... Joking wif u oni...
+1	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's
+0	U dun say so early hor... U c already then say...
+```
+
+Provided in the repo are three data sets. A [small training set](data/training_set_small.csv), a [large training set](data/training_set_large.csv), and a [small test set](data/test_set.csv).
 
 # Remote Setup
 

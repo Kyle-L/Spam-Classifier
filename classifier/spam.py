@@ -1,6 +1,5 @@
 import pandas
 import re
-import numpy
 
 LABEL_COLUMN = 'LABEL'
 BODY_COLUMN = 'BODY'
