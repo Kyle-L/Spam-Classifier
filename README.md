@@ -88,5 +88,5 @@ Once, it has opened, all you need do is select run!
 
 The source code is licensed under a [MIT License](https://github.com/Kyle-L/Spam-Classifier/LICENSE).
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Kyle-L/Spam-Classifier/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Kyle-L/Spam-Classifier/LICENSE.md)
 
