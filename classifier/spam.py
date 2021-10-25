@@ -1,41 +1,56 @@
 import pandas
 import re
 
-LABEL_COLUMN = 'LABEL'
-BODY_COLUMN = 'BODY'
-
 class Classifier():
+   """
+   Represents an object which takes in a training set of messages
+   and uses the Naive Bayes to classify new messages.
+   """   
 
-   def __init__(self, path):
-      self.training_set = pandas.read_csv(path, sep='\t', header=None, names=[LABEL_COLUMN, BODY_COLUMN])
+   def __init__(self, path, label_column = "LABEL", body_column = "BODY", start_row = 0, seperator = "\t"):
+      self.body_column = body_column
+      self.label_column = label_column
+
+      self.training_set = pandas.read_csv(path, sep=seperator, header=start_row, names=[self.label_column, self.body_column])
       self.vocabulary = []
       self.training_set_clean = None
       self._train()
 
    def _clean_data(self):
+      """
+      Takes in a training set and cleans it up by removing punctuation, removing multiple spaces, 
+      and converting to lowercase.
+      """      
+      
       # Removes punctuation
-      self.training_set[BODY_COLUMN] = self.training_set[BODY_COLUMN].str.replace('\W', ' ', regex=True)
+      self.training_set[self.body_column] = self.training_set[self.body_column].str.replace('\W', ' ', regex=True)
 
       # Removes multiple spaces with one.
-      self.training_set[BODY_COLUMN] = self.training_set[BODY_COLUMN].str.replace('\s+', ' ', regex=True)
+      self.training_set[self.body_column] = self.training_set[self.body_column].str.replace('\s+', ' ', regex=True)
 
       # Lowercase everything
-      self.training_set[BODY_COLUMN] = self.training_set[BODY_COLUMN].str.lower()
+      self.training_set[self.body_column] = self.training_set[self.body_column].str.lower()
    
 
    def _build_vocabulary(self):
-      self.training_set[BODY_COLUMN] = self.training_set[BODY_COLUMN].str.split()
+      """Builds a unique set of words from the training set.
+      """
+
+      self.training_set[self.body_column] = self.training_set[self.body_column].str.split()
       self.vocabulary = []
-      for message in self.training_set[BODY_COLUMN]:
+      for message in self.training_set[self.body_column]:
          for word in message:
             self.vocabulary.append(word)
       self.vocabulary = list(set(self.vocabulary))
 
 
    def _count_tokens(self):
-      word_counts_per_message = {unique_word: [0] * len(self.training_set[BODY_COLUMN]) for unique_word in self.vocabulary}
+      """Computes the count of all tokens in each message.
+      """
 
-      for index, message in enumerate(self.training_set[BODY_COLUMN]):
+      word_counts_per_message = {unique_word: [0] * len(self.training_set[self.body_column]) for unique_word in self.vocabulary}
+
+      for index, message in enumerate(self.training_set[self.body_column]):
          for word in message:
             word_counts_per_message[word][index] += 1
             
@@ -43,21 +58,24 @@ class Classifier():
 
       self.training_set_clean = pandas.concat([self.training_set, word_counts], axis=1)
 
-   def _build_params(self):   
+   def _build_params(self):
+      """Builds all parameters needed for the classifier to classify a message.
+      """      
+
       # Isolating spam and ham messages first
-      spam_messages = self.training_set_clean[self.training_set_clean[LABEL_COLUMN] == 1]
-      ham_messages = self.training_set_clean[self.training_set_clean[LABEL_COLUMN] == 0]
+      spam_messages = self.training_set_clean[self.training_set_clean[self.label_column] == 1]
+      ham_messages = self.training_set_clean[self.training_set_clean[self.label_column] == 0]
 
       # P(Spam) and P(Ham)
       self.p_spam = len(spam_messages) / len(self.training_set_clean)
       self.p_ham = len(ham_messages) / len(self.training_set_clean)
 
       # N_Spam
-      n_words_per_spam_message = spam_messages[BODY_COLUMN].apply(len)
+      n_words_per_spam_message = spam_messages[self.body_column].apply(len)
       self.n_spam = n_words_per_spam_message.sum()
 
       # N_Ham
-      n_words_per_ham_message = ham_messages[BODY_COLUMN].apply(len)
+      n_words_per_ham_message = ham_messages[self.body_column].apply(len)
       self.n_ham = n_words_per_ham_message.sum()
 
       # Initiate parameters
@@ -75,12 +93,26 @@ class Classifier():
          self.parameters_ham[word] = p_word_given_ham
 
    def _train(self):
+      """Trains the classifier.
+      """
+
       self._clean_data()
       self._build_vocabulary()
       self._count_tokens()
       self._build_params()
 
    def classify(self, message):
+      """
+      Classifies a single message and returns the probability of being spam.
+      If the result is greater than or equal to 0.5, it is spam. Otherwise, it is ham/
+
+      Args:
+          message (str): A message to classify.
+
+      Returns:
+          double: The probability of being spam.
+      """
+      
       message = re.sub('\W', ' ', message)
       message = message.lower().split()
 
@@ -96,16 +128,25 @@ class Classifier():
 
       return p_spam_given_message / (p_spam_given_message + p_ham_given_message)
 
-   def classify_test_set(self, test_file_path):
-      self.training_set = pandas.read_csv(test_file_path, sep='\t', header=None, names=[LABEL_COLUMN, BODY_COLUMN])
+   def classify_test_set(self, test_file_path, label_column = "LABEL", body_column = "BODY", start_row = 0, seperator = "\t"):
+      """Classifies all messages in the test file path and computes the accuracy of the classifier.
+
+      Args:
+          test_file_path (str): The path of the test file.
+
+      Returns:
+          double: The accuracy of the classifier.
+      """      
+
+      self.training_set = pandas.read_csv(test_file_path, sep=seperator, header=start_row, names=[label_column, body_column])
      
       accuracyCount = 0
       count = 0
 
       for index, row in self.training_set.iterrows():
          count += 1
-         result = self.classify(row[BODY_COLUMN])
-         if (row[LABEL_COLUMN] == 1 and result >= 0.5) or (row[LABEL_COLUMN] == 0 and result < 0.5):
+         result = self.classify(row[self.body_column])
+         if (row[label_column] == 1 and result >= 0.5) or (row[label_column] == 0 and result < 0.5):
             accuracyCount += 1
 
       return accuracyCount / count
