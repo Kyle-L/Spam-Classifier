@@ -55,7 +55,7 @@ $ pip install -r classifier/requirements.txt
 1. Run the classifier!
 
 ```shell
-$ python ./classifier.py -h
+$ python classifier data/training_set_small.csv data/test_set.csv
 ```
 
 Congrats! You are setup!
