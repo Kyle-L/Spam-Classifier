@@ -1,2 +1,2 @@
 language = "python3"
-run = "python classifier data/training_set_small.csv data/test_set.csv"
+run = "python classifier compare data/training_set_small.csv data/test_set.csv"
