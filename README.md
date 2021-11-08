@@ -55,13 +55,13 @@ $ pip install -r classifier/requirements.txt
 1. Run the classifier!
 
 ```shell
-$ python classifier data/training_set_small.csv data/test_set.csv
+$ python classifier compare data/training_set_small.csv data/test_set.csv
 ```
 
 Congrats! You are setup!
 
 # The Data Sets
-The expected input is a tab delimated file where the first column indicates whether or not a message is spam (1 = spam, 0 = ham) and the two column is the message. No header is expected.
+The expected input is a tab delimited file where the first column indicates whether or not a message is spam (1 = spam, 0 = ham) and the two column is the message. No header is expected.
 
 An example input into the program is as follows...
 
