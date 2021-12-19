@@ -1,4 +1,4 @@
-![Spam Classifier](doc/header.svg)
+![Spam Classifier](doc/header.png)
 
 [![Run on Repl.it](https://repl.it/badge/github/Kyle-L/Spam-Classifier)](https://repl.it/github/Kyle-L/Spam-Classifier)
 
