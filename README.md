@@ -14,7 +14,7 @@ As a simple assignment for my [Introduction to Artificial Intelligence course (C
 
 # Local Setup
 
-If you would like to setup the Chess Engine on your local machine, you can use the following instructions!
+If you would like to setup the project on your local machine, you can use the following instructions!
 
 1. Download the repo.
 
